@@ -12,7 +12,7 @@ function App() {
     price: false,
     calories: false,
     ingredients: false,
-    product_weight : false
+    product_weight: false,
   });
   let filteredSnacksDB = snacksDB
     .filter(
@@ -25,35 +25,54 @@ function App() {
         return filters.price ? b.price - a.price : a.price - b.price;
       } else if (sortKey === "id") {
         return filters.id ? b.id - a.id : a.id - b.id;
-      }  else if (sortKey==="weight") {
-        return filters.product_weight ? b.product_weight.split("g")[0] - a.product_weight.split("g")[0] : a.product_weight.split("g")[0] - b.product_weight.split("g")[0];
-      } else if (sortKey==="calories") {
-        return filters.calories ? b.calories - a.calories : a.calories - b.calories;
-      } else if (sortKey==="ingredients") {
-        return filters.ingredients ? b.ingredients - a.ingredients: a.ingredients - b.ingredients;
+      } else if (sortKey === "weight") {
+        return filters.product_weight
+          ? b.product_weight.split("g")[0] - a.product_weight.split("g")[0]
+          : a.product_weight.split("g")[0] - b.product_weight.split("g")[0];
+      } else if (sortKey === "calories") {
+        return filters.calories
+          ? b.calories - a.calories
+          : a.calories - b.calories;
+      } else if (sortKey === "ingredients") {
+        return filters.ingredients
+          ? b.ingredients - a.ingredients
+          : a.ingredients - b.ingredients;
       }
     });
-  filteredSnacksDB = filters.product_name ? filteredSnacksDB.sort() : filteredSnacksDB.reverse()
+  filteredSnacksDB = filters.product_name
+    ? filteredSnacksDB.sort()
+    : filteredSnacksDB.reverse();
   const keys = Object.keys(snacksDB[0]);
   const handleSorting = (key) => {
-    if (key === "price") {
-      setFilters((prev) => ({ ...prev, price: !prev.price }));
-      setSortKey("price");
-    } else if (key === "id") {
-      setFilters((prev) => ({ ...prev, id: !prev.id }));
-      setSortKey("id");
-    } else if (key === "product_name") {
-      setFilters((prev) => ({ ...prev, product_name: !prev.product_name }));
-      setSortKey("name");
-    } else if (key==="product_weight") {
-      setFilters((prev) => ({ ...prev, product_weight: !prev.product_weight }));
-      setSortKey("weight")
-    } else if (key==="calories") {
-      setFilters((prev) => ({ ...prev, calories: !prev.calories }));
-      setSortKey("calories")
-    } else if (key==="ingredients") {
-      setFilters((prev) => ({ ...prev, ingredients: !prev.ingredients }));
-      setSortKey("ingredients")
+    switch (key) {
+      case "price":
+        setFilters((prev) => ({ ...prev, price: !prev.price }));
+        setSortKey("price");
+        break;
+      case "id":
+        setFilters((prev) => ({ ...prev, id: !prev.id }));
+        setSortKey("id");
+        break;
+      case "product_name":
+        setFilters((prev) => ({ ...prev, product_name: !prev.product_name }));
+        setSortKey("name");
+        break;
+      case "product_weight":
+        setFilters((prev) => ({
+          ...prev,
+          product_weight: !prev.product_weight,
+        }));
+        setSortKey("weight");
+        break;
+      case "calories" :
+        setFilters((prev) => ({ ...prev, calories: !prev.calories }));
+      setSortKey("calories");
+      break
+      case "ingredients" :
+        setFilters((prev) => ({ ...prev, ingredients: !prev.ingredients }));
+      setSortKey("ingredients");
+      break
+      default : return
     }
   };
 
@@ -62,7 +81,7 @@ function App() {
       <h1>Cooking Pan 🍳</h1>
       <input
         type="text"
-        style={{ marginBottom: "40px", height: "50px", width : "400px" }}
+        style={{ marginBottom: "40px", height: "50px", width: "400px" }}
         onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
         placeholder="Search Produt or Ingridients"
       />
@@ -71,7 +90,8 @@ function App() {
           {keys.map((key) => {
             return (
               <th key={key} onClick={() => handleSorting(key)}>
-                {key.split("_").join(" ").toUpperCase()} {filters[key] ? "⬆️" : "⬇️"}
+                {key.split("_").join(" ").toUpperCase()}{" "}
+                {filters[key] ? "⬆️" : "⬇️"}
               </th>
             );
           })}
