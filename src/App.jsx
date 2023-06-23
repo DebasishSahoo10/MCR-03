@@ -71,7 +71,7 @@ function App() {
           {keys.map((key) => {
             return (
               <th key={key} onClick={() => handleSorting(key)}>
-                {key} {filters[key] ? "⬆️" : "⬇️"}
+                {key.split("_").join(" ").toUpperCase()} {filters[key] ? "⬆️" : "⬇️"}
               </th>
             );
           })}

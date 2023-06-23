@@ -40,3 +40,35 @@
 .read-the-docs {
   color: #888;
 }
+
+body {
+  background-color: white;
+}
+td {
+  color: black;
+  padding: 5px;
+}
+th {
+  color: palevioletred;
+  padding: 10px;
+}
+table {
+  border-collapse: collapse;
+  border: 2px dashed black;
+}
+input {
+  background-color: transparent;
+  color: black;
+  font-family: system-ui;
+  padding-left: 20px;
+  border: 2px black dashed;
+  border-radius: 8px;
+  font-size: large;
+}
+p {
+  font-size: large;
+  color: black;
+}
+h1 {
+  color: black;
+}
