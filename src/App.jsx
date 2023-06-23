@@ -25,7 +25,7 @@ function App() {
         return filters.price ? b.price - a.price : a.price - b.price;
       } else if (sortKey === "id") {
         return filters.id ? b.id - a.id : a.id - b.id;
-      } else if (sortKey === "weight") {
+      } else if (sortKey === "product_weight") {
         return filters.product_weight
           ? b.product_weight.split("g")[0] - a.product_weight.split("g")[0]
           : a.product_weight.split("g")[0] - b.product_weight.split("g")[0];
@@ -35,45 +35,18 @@ function App() {
           : a.calories - b.calories;
       } else if (sortKey === "ingredients") {
         return filters.ingredients
-          ? b.ingredients - a.ingredients
-          : a.ingredients - b.ingredients;
+          ? b.ingredients[0].localeCompare(a.ingredients[0])
+          : a.ingredients[0].localeCompare(b.ingredients[0]);
+      } else if (sortKey === "product_name") {
+        return filters.product_name
+        ? b.product_name.localeCompare(a.product_name)
+        : a.product_name.localeCompare(b.product_name);
       }
     });
-  filteredSnacksDB = filters.product_name
-    ? filteredSnacksDB.sort()
-    : filteredSnacksDB.reverse();
   const keys = Object.keys(snacksDB[0]);
   const handleSorting = (key) => {
-    switch (key) {
-      case "price":
-        setFilters((prev) => ({ ...prev, price: !prev.price }));
-        setSortKey("price");
-        break;
-      case "id":
-        setFilters((prev) => ({ ...prev, id: !prev.id }));
-        setSortKey("id");
-        break;
-      case "product_name":
-        setFilters((prev) => ({ ...prev, product_name: !prev.product_name }));
-        setSortKey("name");
-        break;
-      case "product_weight":
-        setFilters((prev) => ({
-          ...prev,
-          product_weight: !prev.product_weight,
-        }));
-        setSortKey("weight");
-        break;
-      case "calories" :
-        setFilters((prev) => ({ ...prev, calories: !prev.calories }));
-      setSortKey("calories");
-      break
-      case "ingredients" :
-        setFilters((prev) => ({ ...prev, ingredients: !prev.ingredients }));
-      setSortKey("ingredients");
-      break
-      default : return
-    }
+    setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
+    setSortKey(key);
   };
 
   return (
