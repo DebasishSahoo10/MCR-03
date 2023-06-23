@@ -6,6 +6,7 @@ function App() {
   const snacksDB = snacks;
   const [searchQuery, setSearchQuery] = useState("");
   const [sortKey, setSortKey] = useState("");
+  const keys = Object.keys(snacksDB[0]);
   const [filters, setFilters] = useState({
     id: false,
     product_name: false,
@@ -14,6 +15,10 @@ function App() {
     ingredients: false,
     product_weight: false,
   });
+  const handleSorting = (key) => {
+    setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
+    setSortKey(key);
+  };
   let filteredSnacksDB = snacksDB
     .filter(
       (snack) =>
@@ -43,11 +48,7 @@ function App() {
         : a.product_name.localeCompare(b.product_name);
       }
     });
-  const keys = Object.keys(snacksDB[0]);
-  const handleSorting = (key) => {
-    setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
-    setSortKey(key);
-  };
+ 
 
   return (
     <div>
